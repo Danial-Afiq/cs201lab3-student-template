@@ -81,33 +81,33 @@ public class Q1Test {
                return "Invalid traversals";
           }
 
-          String type1 = guessType(first);
-          String type2 = guessType(second);
-          String type3 = guessType(third);
+          int[] inorder = first.clone();
+          java.util.Arrays.sort(inorder);
+          java.util.ArrayList<Node> trees = makeTrees(inorder, 0, inorder.length - 1);
+          String[] input = {toText(first), toText(second), toText(third)};
+          String[] names = {"Inorder", "Preorder", "Postorder"};
 
-          if (type1 == null || type2 == null || type3 == null) {
-               return "Invalid traversals";
+          for (Node tree : trees) {
+               String[] actual = {
+                    getTraversal(tree, 0),
+                    getTraversal(tree, 1),
+                    getTraversal(tree, 2)
+               };
+
+               for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                         if (i == j) continue;
+                         int k = 3 - i - j;
+                         if (input[0].equals(actual[i]) && input[1].equals(actual[j]) &&
+                                   input[2].equals(actual[k])) {
+                              return "Traversal 1 - " + names[i] + ", Traversal 2 - " +
+                                        names[j] + ", Traversal 3 - " + names[k];
+                         }
+                    }
+               }
           }
 
-          return "Traversal 1 - " + type1 + ", Traversal 2 - " + type2 +
-                    ", Traversal 3 - " + type3;
-     }
-
-     // WRONG: An inorder traversal is not always increasing in this simple way.
-     private static String guessType(int[] values) {
-          boolean increasing = true;
-          boolean decreasing = true;
-
-          for (int i = 1; i < values.length; i++) {
-               if (values[i] <= values[i - 1]) increasing = false;
-               if (values[i] >= values[i - 1]) decreasing = false;
-          }
-
-          if (increasing) return "Inorder";
-          if (decreasing) return "Postorder";
-
-          // WRONG: Everything else is guessed to be preorder.
-          return "Preorder";
+          return "Invalid traversals";
      }
 
      // A small class for one BST node.
