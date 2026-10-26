@@ -75,7 +75,9 @@ public class Q1Test {
           }
 
           // This check is also incomplete because it only checks the length.
-          if (first.length != second.length || first.length != third.length) {
+          if (first.length != second.length || first.length != third.length ||
+                    !hasUniqueValues(first) || !hasSameValues(first, second) ||
+                    !hasSameValues(first, third)) {
                return "Invalid traversals";
           }
 
